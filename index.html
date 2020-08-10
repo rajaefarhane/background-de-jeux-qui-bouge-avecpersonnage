@@ -1,0 +1,115 @@
+  <!DOCTYPE html>
+  <!--
+le dossier img contient plusieurs image si vous voulez modifier une image 
+
+  -->
+
+<html>
+
+    <head>
+        <meta charset="utf-8" />
+        <title> Flappy Bird by Rajae Fahane </title>
+        <style type="text/css">
+            #canvas {
+              border: 1px solid;
+              width: 800px;
+              height:490px;
+              margin-left: 15rem;
+              margin-top: 4rem;
+                    }
+        </style>
+    </head>
+    <body>
+      <canvas id='canvas'>mon 1er projet du jeux </canvas>
+        <script >
+        var bebek1= new Image();
+        bebek1.src="img/ir1.png";
+        var bebek2= new Image();
+        bebek2.src="img/ir2.png";
+        var bg= new Image();
+        bg.src="img/d.jpg";
+
+        var gambarTiang= new Image();
+        gambarTiang.src="img/pp.png";
+        function mulaiKanvas(){
+                        var canvas=document.getElementById('canvas');
+                        var ctx=canvas.getContext('2d');
+
+                        canvas.width=canvas.scrollWidth;
+                        canvas.height=canvas.scrollHeight;
+
+                        var cW=canvas.width;
+                        var cH=canvas.height;
+                        //function splash(){}
+                        utama();
+                        function utama(){
+                          var gantiGambar=false;
+                          function BG(){
+                            this.x=0;
+                            this.render=function(){
+                              ctx.drawImage(bg,this.x--,0);
+                              if(this.x==-70){
+                                this.x=0;
+                              }
+                            }
+
+                          }
+                          var latar=new BG();
+                          function Karakter(){
+                            this.x=100;
+                            this.y=200;
+                            this.w=100;
+                            this.h=100;
+                            this.i=0;
+                            this.render=function() {
+                              if(gantiGambar){
+                              ctx.drawImage(bebek2,this.x,this.y+=5);
+                              this.i++;
+                              if(this.i==5){
+                                gantiGambar=false;
+                                this.i=0;
+                              }
+                            }else {
+                              ctx.drawImage(bebek1,this.x,this.y+=5);
+                            }
+                            }
+                          }
+                              var Karakter=new Karakter();
+                              var tiang=[];
+                              tambahTiang();
+                              function tambahTiang(){
+                                var x=800, y=0, w=118, h=535;
+                                var acak=Math.floor(Math.random()*250);
+                                tiang.push({"x":x,"y":y-acak,"w":w,"h":h});
+                              }
+                              function renderTiang(){
+                                for(var i=0;i<tiang.lenght;i++){
+                                  var t=tiang[i];
+                                  ctx.drawImage(gambarTiang,t.x--,t.y);
+                                }
+
+                              }
+
+                              function animasi(){
+                                ctx.save();
+                                ctx.clearRect(0,0,cW,cH);
+                                latar.render();
+                                Karakter.render();
+                                  renderTiang();
+                                ctx.restore();
+                              }
+                              var interval=setInterval(animasi,30);
+                              ctx.canvas.addEventListener('click',function(event){
+                                  Karakter.y-=70;
+                                  gantiGambar=true;
+                              });
+                        }//fin de la fonction utama
+
+        }
+        window.addEventListener('load',function(event){
+                 mulaiKanvas()
+        });
+
+        </script>
+    </body>
+</html>
